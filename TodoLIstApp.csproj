@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="tasks\add\" />
+    <Folder Include="tasks\update\" />
   </ItemGroup>
 
 </Project>

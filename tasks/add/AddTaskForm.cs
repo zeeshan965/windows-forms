@@ -1,63 +1,24 @@
 ﻿using MySql.Data.MySqlClient;
-using System.Diagnostics;
 using TodoLIstApp.DataBase;
+using TodoLIstApp.RolesListing;
 
-namespace TodoLIstApp.tasks.update
+namespace TodoLIstApp.tasks.add
 {
-    public partial class UpdateTaskForm : Form
+    public partial class AddTaskForm : Form
     {
-        private readonly int taskId;
-        public event EventHandler FormClosedEvent;
         private List<Category> categories;
 
-        public UpdateTaskForm(int taskId)
+        public event EventHandler FormClosedEvent;
+
+        public AddTaskForm()
         {
             InitializeComponent();
             InitializeErrorLabels();
-
-            this.taskId = taskId;
-
-            // Load and display the task details in the form
-            LoadTaskDetails();
-
         }
 
-        private void LoadTaskDetails()
+        private void AddTaskForm_Load(object sender, EventArgs e)
         {
-            try
-            {
-                using (MySqlConnection connection = DatabaseHelper.GetOpenConnection())
-                {
-                    // Assuming you have a stored procedure or query to get task details by ID
-                    string query = "SELECT * FROM tasks WHERE id = @taskId";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@taskId", taskId);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                Debug.WriteLine(reader["description"].ToString());
-                                // Populate the form fields with task details
-                                txtTitle.Text = reader["title"].ToString();
-                                txtDescription.Text = reader["description"].ToString();
-                                // Add other fields as needed
-                            }
-                            else
-                            {
-                                MessageBox.Show("Task not found.");
-                                Close(); // Close the form if the task is not found
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Database error: " + ex.Message);
-            }
+            LoadCategories();
         }
 
         private void LoadCategories()
@@ -96,11 +57,6 @@ namespace TodoLIstApp.tasks.update
             }
         }
 
-        private void UpdateTaskForm_Load(object sender, EventArgs e)
-        {
-            LoadCategories();
-        }
-
         private void txtTilte_TextChanged(object sender, EventArgs e)
         {
 
@@ -111,7 +67,7 @@ namespace TodoLIstApp.tasks.update
 
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void btnCreate_Click(object sender, EventArgs e)
         {
             // Reset error labels
             lblErrorTitle.Text = "";
@@ -134,26 +90,25 @@ namespace TodoLIstApp.tasks.update
             {
                 using (MySqlConnection connection = DatabaseHelper.GetOpenConnection())
                 {
-                    string query = "UPDATE tasks SET title = @title, description = @description, " +
-                        "category_id = @categoryId WHERE id = @taskId";
+                    string query = "INSERT into tasks (title, description, category_id) " +
+                        "VALUES (@title, @description, @category_id)";
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@title", title);
                         command.Parameters.AddWithValue("@description", description);
-                        command.Parameters.AddWithValue("@taskId", taskId);
-                        command.Parameters.AddWithValue("@categoryId", categoryId);
+                        command.Parameters.AddWithValue("@category_id", categoryId);
 
                         int rowsAffected = command.ExecuteNonQuery();
                         connection.Close();
                         if (rowsAffected > 0)
                         {
-                            MessageBox.Show("Task updated successfully.");
+                            MessageBox.Show("Task created successfully.");
                             Close(); // Close the form after successful update
                         }
                         else
                         {
-                            MessageBox.Show("Task update failed.");
+                            MessageBox.Show("Task creation failed.");
                         }
                     }
                 }
@@ -187,15 +142,10 @@ namespace TodoLIstApp.tasks.update
 
         }
 
-        private void updateTaskForm_FormClosing(object sender, EventArgs e)
+        private void createTaskForm_FormClosing(object sender, EventArgs e)
         {
             // Notify the main form about the closing
             FormClosedEvent?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

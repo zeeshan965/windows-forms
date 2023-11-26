@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp8.1.2\\htdocs\\TodoLIstApp\\TodoLIstApp.csproj": {}
+    "C:\\Users\\buttj\\OneDrive\\Documents\\TodoLIstApp\\TodoLIstApp.csproj": {}
   },
   "projects": {
-    "C:\\xampp8.1.2\\htdocs\\TodoLIstApp\\TodoLIstApp.csproj": {
+    "C:\\Users\\buttj\\OneDrive\\Documents\\TodoLIstApp\\TodoLIstApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp8.1.2\\htdocs\\TodoLIstApp\\TodoLIstApp.csproj",
+        "projectUniqueName": "C:\\Users\\buttj\\OneDrive\\Documents\\TodoLIstApp\\TodoLIstApp.csproj",
         "projectName": "TodoLIstApp",
-        "projectPath": "C:\\xampp8.1.2\\htdocs\\TodoLIstApp\\TodoLIstApp.csproj",
+        "projectPath": "C:\\Users\\buttj\\OneDrive\\Documents\\TodoLIstApp\\TodoLIstApp.csproj",
         "packagesPath": "C:\\Users\\buttj\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp8.1.2\\htdocs\\TodoLIstApp\\obj\\",
+        "outputPath": "C:\\Users\\buttj\\OneDrive\\Documents\\TodoLIstApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\buttj\\AppData\\Roaming\\NuGet\\NuGet.Config",

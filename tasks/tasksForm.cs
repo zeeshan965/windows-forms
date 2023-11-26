@@ -1,15 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using TodoLIstApp.categories;
 using TodoLIstApp.DataBase;
+using TodoLIstApp.tasks.add;
 using TodoLIstApp.tasks.update;
 
 namespace TodoLIstApp.tasks
@@ -71,7 +65,6 @@ namespace TodoLIstApp.tasks
                         Alignment = DataGridViewContentAlignment.MiddleCenter
                     },
                     Width = 60 // Adjust the width of the button
-
                 }
 
             );
@@ -121,9 +114,51 @@ namespace TodoLIstApp.tasks
                 }
                 else if (columnName == "delete-task")
                 {
-                    // Handle "Delete" button click
-                    MessageBox.Show("Delete button clicked for row " + e.RowIndex);
+                    DataGridViewRow selectedRow = dataGridViewTasks.Rows[e.RowIndex];
+                    int taskId = Convert.ToInt32(selectedRow.Cells["update-task"].Tag);
+                    // Prompt the user for confirmation
+                    DialogResult result = MessageBox.Show("Are you sure you want to delete this task?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        // User confirmed, proceed with task deletion
+                        DeleteTask(taskId);
+                    }
                 }
+            }
+        }
+
+        private void DeleteTask(int taskId)
+        {
+            try
+            {
+                using (MySqlConnection connection = DatabaseHelper.GetOpenConnection())
+                {
+                    string query = "DELETE FROM tasks WHERE id = @taskId";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@taskId", taskId);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Task deleted successfully.");
+                            // Refresh the task listings after deletion
+                            LoadTasks();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Task deletion failed.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle database error
+                MessageBox.Show("Database error: " + ex.Message);
             }
         }
 
@@ -177,6 +212,33 @@ namespace TodoLIstApp.tasks
                 // Handle database error
                 MessageBox.Show("Database error: " + ex.Message);
             }
+        }
+
+        private void BtnAddTask_Click(object sender, EventArgs e)
+        {
+            AddTaskForm addTaskForm = new AddTaskForm();
+            addTaskForm.FormClosed += CreateTaskForm_FormClosed;
+            addTaskForm.Show();
+        }
+
+        private void CreateTaskForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Refresh the task listings when the CreateTaskForm is closed
+            LoadTasks();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            loginForm loginPage = new loginForm();
+            loginPage.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            CategoryForm categoryForm = new CategoryForm();
+            categoryForm.Show();
         }
     }
 }

@@ -1,22 +1,16 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using TodoLIstApp.DataBase;
+using TodoLIstApp.SignupForm;
 
 namespace TodoLIstApp
 {
     public partial class SignUpForm : Form
     {
+
+        private List<Category> roles;
+
         public SignUpForm()
         {
             InitializeComponent();
@@ -25,7 +19,43 @@ namespace TodoLIstApp
 
         private void SignUpForm_Load(object sender, EventArgs e)
         {
+            LoadRoles();
+        }
 
+        private void LoadRoles()
+        {
+            try
+            {
+                using (MySqlConnection connection = DatabaseHelper.GetOpenConnection())
+                {
+                    string query = "SELECT id, name FROM roles";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            roles = new List<Category>();
+                            while (reader.Read())
+                            {
+                                Category role = new Category
+                                {
+                                    Id = reader.GetInt32("id"),
+                                    Name = reader.GetString("name")
+                                };
+                                roles.Add(role);
+                            }
+                        }
+                    }
+                }
+
+                // Populate the dropdown with roles
+                cmbRoles.DataSource = roles;
+                cmbRoles.DisplayMember = "Name";
+                cmbRoles.ValueMember = "Id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database error: " + ex.Message);
+            }
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -55,9 +85,10 @@ namespace TodoLIstApp
                 string password = txtPassword.Text.Trim();//txtLoginPassword.Text;
                 string ConfirmPassword = txtConfirmPassword.Text.Trim();
                 string hashedPassword = SecurityUtils.HashPassword(ConfirmPassword);
-                bool status = register(name, email, hashedPassword);
+                int roleId = (int)cmbRoles.SelectedValue;
+                bool status = register(name, email, hashedPassword, roleId);
 
-                if(status)
+                if (status)
                 {
                     this.Hide();
                     loginForm loginForm = new loginForm();
@@ -65,7 +96,7 @@ namespace TodoLIstApp
 
                 }
             }
-            
+
 
         }
 
@@ -123,20 +154,21 @@ namespace TodoLIstApp
         }
 
 
-        private bool register(string name, string email, string password)
+        private bool register(string name, string email, string password, int roleId)
         {
             try
             {
                 using (MySqlConnection connection = DatabaseHelper.GetOpenConnection())
                 {
                     // Assuming your Users table has columns: Name, Email, Password
-                    string query = "INSERT INTO users (name, email, password) VALUES (@Name, @Email, @Password)"; 
+                    string query = "INSERT INTO users (name, email, password, role_id) VALUES (@Name, @Email, @Password, @RoleId)";
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Name", name);
                         command.Parameters.AddWithValue("@Email", email);
                         command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@RoleId", roleId);
 
                         int rowsAffected = command.ExecuteNonQuery();
                         connection.Close();
@@ -151,7 +183,7 @@ namespace TodoLIstApp
                 return false;
 
             }
-        
+
 
 
         }
@@ -170,6 +202,16 @@ namespace TodoLIstApp
         }
 
         private void lblName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

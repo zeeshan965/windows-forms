@@ -1,3 +1,4 @@
+using TodoLIstApp.categories;
 using TodoLIstApp.tasks;
 
 namespace TodoLIstApp
@@ -16,6 +17,7 @@ namespace TodoLIstApp
             //Application.Run(new loginForm());
             Application.Run(new tasksForm());
             //Application.Run(new SignUpForm());
+            //Application.Run(new CategoryForm());
         }
     }
 }

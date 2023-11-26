@@ -1,11 +1,22 @@
-﻿namespace TodoLIstApp.tasks.update
+﻿namespace TodoLIstApp.tasks.add
 {
-    partial class UpdateTaskForm
+    partial class AddTaskForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
+        private Label lblTitle;
+        private TextBox txtTitle;
+
+        private Label lblDescription;
+        private TextBox txtDescription;
+
+        private Button btnCreate;
+        private Label lblErrorTitle;
+
+        private ComboBox cmbRoles;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -22,18 +33,6 @@
 
         #region Windows Form Designer generated code
 
-        private Label lblTitle;
-        private TextBox txtTitle;
-
-        private Label lblDescription;
-        private TextBox txtDescription;
-
-        private Button btnUpdate;
-
-        private Label lblErrorTitle;
-
-        private ComboBox cmbRoles;
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -44,14 +43,13 @@
             txtTitle = new TextBox();
             lblDescription = new Label();
             txtDescription = new TextBox();
-            btnUpdate = new Button();
+            btnCreate = new Button();
             cmbRoles = new ComboBox();
-            label1 = new Label();
             SuspendLayout();
             // 
             // lblTitle
             // 
-            lblTitle.Location = new Point(16, 23);
+            lblTitle.Location = new Point(20, 20);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(100, 23);
             lblTitle.TabIndex = 0;
@@ -85,55 +83,43 @@
             txtDescription.TabIndex = 3;
             txtDescription.TextChanged += txtDescription_TextChanged;
             // 
-            // btnUpdate
+            // btnCreate
             // 
-            btnUpdate.Location = new Point(122, 246);
-            btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(75, 23);
-            btnUpdate.TabIndex = 4;
-            btnUpdate.Text = "Update Task";
-            btnUpdate.Click += btnUpdate_Click;
+            btnCreate.Location = new Point(122, 265);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(75, 23);
+            btnCreate.TabIndex = 4;
+            btnCreate.Text = "Create Task";
+            btnCreate.Click += btnCreate_Click;
             // 
             // cmbRoles
             // 
-            cmbRoles.Location = new Point(122, 200);
+            cmbRoles.Location = new Point(122, 210);
             cmbRoles.Name = "cmbRoles";
             cmbRoles.Size = new Size(300, 23);
             cmbRoles.TabIndex = 5;
             // 
-            // label1
-            // 
-            label1.Location = new Point(16, 203);
-            label1.Name = "label1";
-            label1.Size = new Size(100, 23);
-            label1.TabIndex = 6;
-            label1.Text = "Category:";
-            label1.Click += label1_Click;
-            // 
-            // UpdateTaskForm
+            // AddTaskForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(label1);
             Controls.Add(lblTitle);
             Controls.Add(txtTitle);
             Controls.Add(lblDescription);
             Controls.Add(txtDescription);
-            Controls.Add(btnUpdate);
+            Controls.Add(btnCreate);
             Controls.Add(cmbRoles);
-            Name = "UpdateTaskForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "UpdateTaskForm";
-            FormClosing += updateTaskForm_FormClosing;
-            Load += UpdateTaskForm_Load;
+            Name = "AddTaskForm";
+            Text = "AddTaskForm";
+            FormClosing += createTaskForm_FormClosing;
+            Load += AddTaskForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         private void InitializeErrorLabels()
         {
-            // Create error labels for email and password
             lblErrorTitle = new Label();
             lblErrorTitle.ForeColor = Color.Red;
             lblErrorTitle.Location = new Point(120, 43);
@@ -142,7 +128,5 @@
         }
 
         #endregion
-
-        private Label label1;
     }
 }

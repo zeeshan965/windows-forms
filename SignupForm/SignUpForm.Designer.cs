@@ -30,6 +30,7 @@
         private TextBox txtConfirmPassword;
         private Button btnSignUp;
         private LinkLabel lnkLogin;
+        private ComboBox cmbRoles;
 
         private Label lblErrorName;
         private Label lblErrorEmail;
@@ -48,6 +49,8 @@
             txtConfirmPassword = new TextBox();
             btnSignUp = new Button();
             lnkLogin = new LinkLabel();
+            cmbRoles = new ComboBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // lblName
@@ -117,7 +120,7 @@
             // 
             // btnSignUp
             // 
-            btnSignUp.Location = new Point(126, 180);
+            btnSignUp.Location = new Point(126, 231);
             btnSignUp.Name = "btnSignUp";
             btnSignUp.Size = new Size(75, 23);
             btnSignUp.TabIndex = 8;
@@ -127,13 +130,30 @@
             // lnkLogin
             // 
             lnkLogin.ImageAlign = ContentAlignment.BottomRight;
-            lnkLogin.Location = new Point(126, 220);
+            lnkLogin.Location = new Point(26, 269);
             lnkLogin.Name = "lnkLogin";
             lnkLogin.Size = new Size(150, 23);
             lnkLogin.TabIndex = 9;
             lnkLogin.TabStop = true;
             lnkLogin.Text = "Already have an account? Login";
             lnkLogin.LinkClicked += lnkLogin_LinkClicked;
+            // 
+            // cmbRoles
+            // 
+            cmbRoles.Location = new Point(126, 181);
+            cmbRoles.Name = "cmbRoles";
+            cmbRoles.Size = new Size(200, 23);
+            cmbRoles.TabIndex = 10;
+            cmbRoles.SelectedIndexChanged += cmbRoles_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.Location = new Point(26, 184);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 23);
+            label1.TabIndex = 11;
+            label1.Text = "Role: ";
+            label1.Click += label1_Click;
             // 
             // SignUpForm
             // 
@@ -143,6 +163,7 @@
             BackgroundImage = Properties.Resources.bgtaskstdo;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(773, 450);
+            Controls.Add(label1);
             Controls.Add(lnkLogin);
             Controls.Add(lblName);
             Controls.Add(txtName);
@@ -153,6 +174,7 @@
             Controls.Add(lblConfirmPassword);
             Controls.Add(txtConfirmPassword);
             Controls.Add(btnSignUp);
+            Controls.Add(cmbRoles);
             Name = "SignUpForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sign Up";
@@ -189,6 +211,8 @@
             lblErrorConfirmPassword.AutoSize = true;
             Controls.Add(lblErrorConfirmPassword);
         }
+
+        private Label label1;
     }
 }
 
